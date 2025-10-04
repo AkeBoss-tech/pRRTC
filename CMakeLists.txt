@@ -37,7 +37,7 @@ add_executable(evaluate_mbm
 target_include_directories(evaluate_mbm
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/extern/vamp/src/impl
+    #${CMAKE_CURRENT_SOURCE_DIR}/extern/vamp/src/impl
     ${CMAKE_CURRENT_SOURCE_DIR}/build/_deps/nigh-src/src
     ${CMAKE_CURRENT_SOURCE_DIR}/build/_deps/pdqsort-src
 )
@@ -62,7 +62,7 @@ add_executable(single_mbm
 target_include_directories(single_mbm
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/extern/vamp/src/impl
+    #${CMAKE_CURRENT_SOURCE_DIR}/extern/vamp/src/impl
     ${CMAKE_CURRENT_SOURCE_DIR}/build/_deps/nigh-src/src
     ${CMAKE_CURRENT_SOURCE_DIR}/build/_deps/pdqsort-src
 )

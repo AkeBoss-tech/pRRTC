@@ -156,7 +156,7 @@ int main(int argc, char* argv[]) {
     std::string run_name;
     pRRTC_settings settings;
     settings.num_new_configs = 512;
-    settings.granularity = 32;
+    settings.granularity = 16;
     settings.range = 0.5;
     settings.balance = 2;
     settings.tree_ratio = 1.0;

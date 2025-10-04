@@ -128,14 +128,14 @@ int main(int argc, char* argv[]) {
     }
     auto env = problem_dict_to_env(data, name);
     struct pRRTC_settings settings;
-    settings.num_new_configs = 512;
-    settings.max_iters = 1000000;
-    settings.granularity = 64;
+    settings.num_new_configs = 512; //usually:512
+    settings.max_iters = 100000000;
+    settings.granularity = 16;
     settings.range = 0.5;
     settings.balance = 2;
     settings.tree_ratio = 1.0;
     settings.dynamic_domain = true;
-    settings.dd_radius = 6.0;
+    settings.dd_radius = 4.0;
     settings.dd_min_radius = 1.0;
     settings.dd_alpha = 0.0001;
     if (robot_name == "fetch") {
