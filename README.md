@@ -9,7 +9,7 @@ We introduce pRRTC, a GPU-based, parallel RRT-Connect-based algorithm. Our appro
 - SIMT-optimized collision checking to quickly validate edges, inspired by the SIMD-optimized validation of [Vector-Accelerated Motion Planning](https://github.com/KavrakiLab/vamp/tree/main)
 - Efficient memory management between block- and thread-level parallelism, reducing expensive memory transfer overheads
 
-Our empirical evaluations show that pRRTC achieves 10x average speedup on constrained reaching tasks. pRRTC also demonstrates a 5.4x reduction in solution time standard deviation and 1.4x improvement in initial path costs compared to state-of-the-art motion planners in complex environments.
+Our empirical evaluations show that pRRTC achieves a 10x average speedup on constrained reaching tasks. pRRTC also demonstrates a 5.4x reduction in solution time standard deviation and 1.4x improvement in initial path costs compared to state-of-the-art motion planners in complex environments.
 
 ## Supported Robots
 pRRTC currently supports 7-DoF Franka Emika Panda, 8-DoF Fetch, and 14-DoF Rethink Robotics Baxter. The functions for tracing forward kinematics and collision checking were generated using [Cricket](https://github.com/CoMMALab/cricket.git).
