@@ -51,6 +51,57 @@ pRRTC has the following parameters which can be modified in the benchmarking scr
 - <ins>**dd_radius**</ins>: starting radius for dynamic domain sampling
 - <ins>**dd_min_radius**</ins>: minimum radius for dynamic domain sampling
 
+## Adding a Robot
+### Generating FKCC kernels
+1. Use [Foam](https://github.com/CoMMALab/foam) to generate two spherized urdfs:
+- one with approximate geometry, i.e. 1 sphere per link. Ex. [here](https://github.com/CoMMALab/cricket/blob/gpu-cc-early-exit/resources/panda/panda_spherized_1.urdf)
+- one with fine geometry. Ex. [here](https://github.com/CoMMALab/cricket/blob/gpu-cc-early-exit/resources/panda/panda_spherized_1.urdf)
 
+2. Clone [Cricket](https://github.com/CoMMALab/cricket.git) and switch to the `gpu-cc-early-exit` branch.
 
+3. Create a folder under `resources/<robot name>`
 
+4. Add the two spherized urdfs and the robot srdf file to this folder.
+
+5. Create a json config file for approximate fkcc kernel generation. Ex. `resources/robot_approx.json`:
+```
+{
+    "name": "Robot",
+    "urdf": "robot/robot_spherized_approx.urdf",
+    "srdf": "robot/robot.srdf",
+    "end_effector": "robot_grasptarget",
+    "batch_size": 16,
+    "template": "templates/prrtc_approx_template.hh",
+    "subtemplates": [],
+    "output": "robot_prrtc_approx.hh"
+}
+```
+Make sure to reference the approximate urdf. Batch size should be equal to the number of discretized collision checks on each extension of pRRTC.
+
+6. Repeat step 5 and create a config file for the main fkcc generation. Ex. `resources/robot_main.json`. See the panda, fetch, and baxter config files for examples.
+
+7. After building cricket run the script `gpu_fkcc_gen.sh robot`. This will put the generated code into a file `robot_fkcc.hh`.
+
+8. Add this to pRRTC as `src/robot/robot.cuh`, and include it in `src/planning/pRRTC.cu`.
+
+### Integrating the generated code
+9. Add a template instantiation for your robot to the bottom of `src/planning/pRRTC.cu`.
+10. Add your robot to `src/planning/Robots.hh`.
+
+    a. Generate the robot struct from cricket with `build/fkcc_gen robot_struct.json`.
+    Ex. config file `robot_struct.json`:
+    ```
+    {
+        "name": "robot",
+        "urdf": "robot/robot_spherized.urdf",
+        "srdf": "robot/robot.srdf",
+        "end_effector": "robot_grasptarget",
+        "resolution": 32,
+        "template": "templates/prrtc_robot_template.hh",
+        "subtemplates": [],
+        "output": "robot_struct.hh"
+    }
+    ```
+
+    b. copy the generated struct into `src/planning/Robots.hh`.
+11. Recompile pRRTC.
