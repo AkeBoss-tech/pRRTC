@@ -80,7 +80,7 @@ Make sure to reference the approximate urdf. Batch size should be equal to the n
 
 6. Repeat step 5 and create a config file for the main fkcc generation. Ex. `resources/robot_main.json`. See the panda, fetch, and baxter config files for examples.
 
-7. After building cricket run the script `gpu_fkcc_gen.sh robot`. This will put the generated code into a file `robot_fkcc.hh`.
+7. After building cricket run the script `gpu_fkcc_gen.sh robot`. This will put the generated code into a file `robot_fk.hh`.
 
 8. Add this to pRRTC as `src/robot/robot.cuh`, and include it in `src/planning/pRRTC.cu`.
 
