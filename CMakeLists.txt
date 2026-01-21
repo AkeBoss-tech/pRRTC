@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.16...3.22)
 
-find_program(CLANGPP "clang++")
-set(CMAKE_CXX_COMPILER ${CLANGPP} CACHE STRING "C++ compiler" FORCE)
+# Use system compiler (don't force clang++ - not available on all clusters)
+# find_program(CLANGPP "clang++")
+# set(CMAKE_CXX_COMPILER ${CLANGPP} CACHE STRING "C++ compiler" FORCE)
 
 include(FetchContent)
 FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
@@ -20,7 +21,16 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CUDA_ARCHITECTURES 86)
 
-find_package(Eigen3 3.3 REQUIRED NO_MODULE)
+# Try to find Eigen3 via CMake config, else use hardcoded Amarel path
+find_package(Eigen3 3.3 QUIET NO_MODULE)
+if(NOT Eigen3_FOUND)
+    message(STATUS "Eigen3 CMake config not found, using hardcoded Amarel path")
+    # Create interface library for Eigen3
+    add_library(Eigen3::Eigen INTERFACE IMPORTED)
+    set_target_properties(Eigen3::Eigen PROPERTIES
+        INTERFACE_INCLUDE_DIRECTORIES "/projects/community/eigen/3.3.4/gc563/include"
+    )
+endif()
 
 
 # set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xptxas -v")
@@ -37,9 +47,11 @@ add_executable(evaluate_mbm
 target_include_directories(evaluate_mbm
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
-    #${CMAKE_CURRENT_SOURCE_DIR}/extern/vamp/src/impl
     ${CMAKE_CURRENT_SOURCE_DIR}/build/_deps/nigh-src/src
     ${CMAKE_CURRENT_SOURCE_DIR}/build/_deps/pdqsort-src
+    /projects/community/eigen/3.3.4/gc563/include
+    /projects/community/eigen/3.3.4/gc563/include/eigen3
+    ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}
 )
 
 
@@ -62,9 +74,11 @@ add_executable(single_mbm
 target_include_directories(single_mbm
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
-    #${CMAKE_CURRENT_SOURCE_DIR}/extern/vamp/src/impl
     ${CMAKE_CURRENT_SOURCE_DIR}/build/_deps/nigh-src/src
     ${CMAKE_CURRENT_SOURCE_DIR}/build/_deps/pdqsort-src
+    /projects/community/eigen/3.3.4/gc563/include
+    /projects/community/eigen/3.3.4/gc563/include/eigen3
+    ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}
 )
 
 target_link_libraries(single_mbm
