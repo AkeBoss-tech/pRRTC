@@ -6,7 +6,6 @@ problems.pkl
 *.nsys-rep
 Pipfile
 Pipfile.lock
-test_output
 plots
-*.csv
 .python-version
+panda_test_run.csv
