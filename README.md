@@ -105,3 +105,7 @@ Make sure to reference the approximate urdf. Batch size should be equal to the n
 
     b. copy the generated struct into `src/planning/Robots.hh`.
 11. Recompile pRRTC.
+
+
+scp -r -o ProxyJump=ad2046@ilab1.cs.rutgers.edu ad2046@amarel.rutgers.edu:~/pRRTC ~/Documents/CodingProjects/pRRTC_amarel
+

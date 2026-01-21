@@ -27,6 +27,7 @@ echo "GPU: $(nvidia-smi --query-gpu=name --format=csv,noheader)"
 
 # Load required modules (tested working on Amarel Jan 2026)
 module purge
+module use /projects/community/modulefiles
 module load cmake/3.24.3-sw1088
 module load cuda/12.1.0
 module load gcc/10.3.0-pgarias
